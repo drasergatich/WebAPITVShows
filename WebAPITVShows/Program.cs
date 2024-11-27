@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using WebAPITVShows.Models.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TVShowsConnection")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
