@@ -2,7 +2,7 @@
 
 namespace WebAPITVShows.Models.Dtos
 {
-    public class CreateTVShowDTO
+    public class UpdateTVShowDTO
     {
         [Required]
         public string? Name { get; set; }

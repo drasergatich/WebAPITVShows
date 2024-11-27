@@ -60,7 +60,6 @@ namespace WebAPITVShows.Services
         /// Obtiene una lista de todos los registros de TV Show existentes en la base de datos.
         /// Si no se encuentra, devuelve un NotFound con un mensaje.
         /// </summary>
-        /// <param name="id">El ID del TV Show.</param>
         /// <returns>Una lista de tipo <see cref="TVShowDTO"/> con todos los registros existentes de TV Show,
         /// o un objeto de error si no se encuentra.</returns>
         /// <response code="200">Devuelve el TV Show si se encuentra.</response>
@@ -115,6 +114,38 @@ namespace WebAPITVShows.Services
                     return new BadRequestObjectResult(new { message = "No se pudieron realizar cambios en la base de datos." });
                 }
                 return new OkObjectResult(new { message = "Se agregó el registro exitosamente"});
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Actualiza un registro de TV Show en la base de datos.
+        /// </summary>
+        /// <param name="updateTVShowDTO">Objeto que contiene la información necesaria para actualizar un TV Show.</param>
+        /// <param name="id">ID del TV Show a actualizar.</param>
+        /// <response code="200">Devuelve un mensaje indicando que el registro se actualizó exitosamente.</response>
+        /// <response code="400">Si ocurrió un error durante el proceso, devuelve un mensaje con el detalle del error.</response>
+
+        public async Task<ActionResult> UpdateAsync(int id, UpdateTVShowDTO updateTVShowDTO)
+        {
+            try
+            {
+                TVShow tVShow = new TVShow()
+                {
+                    Id = id,
+                    Name = updateTVShowDTO.Name,
+                    Favorite = updateTVShowDTO.Favorite
+                };
+                var resultado = await _genericRepository.UpdateAsync(tVShow);
+
+                // Si no se actualizó el registro, se devuelve un Bad Request con el mensaje correspondiente
+                if (resultado == 0)
+                {
+                    return new BadRequestObjectResult(new { message = "No se pudieron realizar cambios en la base de datos." });
+                }
+                return new OkObjectResult(new { message = "Se agregaron los cambios exitosamente" });
             }
             catch (Exception ex)
             {

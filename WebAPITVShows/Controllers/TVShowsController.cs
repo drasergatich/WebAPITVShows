@@ -26,7 +26,7 @@ namespace WebAPITVShows.Controllers
         /// <returns>Un objeto <see cref="TVShowDTO"/> con los detalles del programa de televisión solicitado.</returns>
         /// <response code="200">Si el TV Show fue encontrado.</response>
         /// <response code="404">Si el TV Show no fue encontrado.</response>
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<TVShowDTO>> GetTVShow(int id)
         {
             return await _tvShowService.GetByIdAsync(id);
@@ -53,9 +53,22 @@ namespace WebAPITVShows.Controllers
         /// <response code="400">Devuelve un mensaje de error.</response>
         [HttpPost]
         [Route("insertar")]
-        public async Task<ActionResult<List<TVShowDTO>>> Create(CreateTVShowDTO createTVShowDTO)
+        public async Task<ActionResult> Create(CreateTVShowDTO createTVShowDTO)
         {
             return await _tvShowService.CreateAsync(createTVShowDTO);
+        }
+        /// <summary>
+        /// Actualiza un TV Show en la base de datos.
+        /// </summary>
+        /// <param name="id">El ID del TV Show a actualizar.</param>
+        /// <param name="updateTVShowDTO">El objeto que contiene los datos necesarios para actualizar un TV Show.</param>
+        /// <returns>Un mensaje que indica si el registro se acualizó exitosamente o si ocurrió algún error durante el proceso.</returns>
+        /// <response code="200">Devuelve un mensaje de resultado.</response>
+        /// <response code="400">Devuelve un mensaje de error.</response>
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Update(int id,[FromBody] UpdateTVShowDTO updateTVShowDTO)
+        {
+            return await _tvShowService.UpdateAsync(id, updateTVShowDTO);
         }
 
     }

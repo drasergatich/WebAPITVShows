@@ -57,7 +57,7 @@ namespace WebAPITVShows.Repositories
         /// <returns>Un número entero 1 si se guardaron cambios, en caso contrario un 0.</returns>
         public async Task<int> UpdateAsync(T entity)
         {
-            _dbSet.Update(entity);
+            _context.Entry(entity).State = EntityState.Modified;
             return await _context.SaveChangesAsync();
         }
         /// <summary>
