@@ -32,6 +32,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TVShowsConnection")));
 
+// Repositorios
+// Repositorio genérico
+builder.Services.AddScoped<IGenericRepository<TVShow>, GenericRepository<TVShow>>();
+
 //Servicios
 builder.Services.AddScoped<ITVShowsService, TVShowsService>();
 var app = builder.Build();

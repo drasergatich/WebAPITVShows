@@ -32,21 +32,64 @@ namespace WebAPITVShows.Services
         /// <response code="404">Si no se encuentra el TV Show, devuelve un mensaje con el error.</response>
         public async Task<ActionResult<TVShowDTO>> GetByIdAsync(int id)
         {
-            var entity = await _genericRepository.GetByIdAsync(id);
-
-            // Si no se encuentra la entidad, se devuelve un NotFound con el mensaje correspondiente
-            if (entity == null)
+            try
             {
-                return new NotFoundObjectResult(new { message = "TV Show no encontrado." });
+                var entity = await _genericRepository.GetByIdAsync(id);
+
+                // Si no se encuentra la entidad, se devuelve un NotFound con el mensaje correspondiente
+                if (entity == null)
+                {
+                    return new NotFoundObjectResult(new { message = "TV Show no encontrado." });
+                }
+
+                // Si se encuentra, se mapea a un DTO y se devuelve
+                return new TVShowDTO
+                {
+                    Id = entity.Id,
+                    Name = entity.Name,
+                    Favorite = entity.Favorite
+                };
+            }
+            catch (Exception ex) 
+            {
+                return new BadRequestObjectResult(ex.Message);
             }
 
-            // Si se encuentra, se mapea a un DTO y se devuelve
-            return new TVShowDTO
+        }
+        /// <summary>
+        /// Obtiene una lista de todos los registros de TV Show existentes en la base de datos.
+        /// Si no se encuentra, devuelve un NotFound con un mensaje.
+        /// </summary>
+        /// <param name="id">El ID del TV Show.</param>
+        /// <returns>Una lista de tipo <see cref="TVShowDTO"/> con todos los registros existentes de TV Show,
+        /// o un objeto de error si no se encuentra.</returns>
+        /// <response code="200">Devuelve el TV Show si se encuentra.</response>
+        /// <response code="404">Si no se encuentra ningún registro de TV Show, devuelve un mensaje con el error.</response>
+        public async Task<ActionResult<List<TVShowDTO>>> GetAllAsync()
+        {
+            try
             {
-                Id = entity.Id,
-                Name = entity.Name,
-                Favorite = entity.Favorite
-            };
+                var entity = await _genericRepository.GetAllAsync();
+
+                // Si no se encuentra ningún registro, se devuelve un NotFound con el mensaje correspondiente
+                if (entity == null)
+                {
+                    return new NotFoundObjectResult(new { message = "Sin resultados." });
+                }
+                // Si se encuentra por lo menos un registro, se mapea a una lista DTO y se devuelve
+                var listaTVShow = entity.Select(entity => new TVShowDTO
+                {
+                    Id = entity.Id,
+                    Name = entity.Name,
+                    Favorite = entity.Favorite
+                }).ToList();
+
+                return listaTVShow;
+            }
+            catch (Exception ex) 
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
         }
     }
 }

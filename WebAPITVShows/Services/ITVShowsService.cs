@@ -7,5 +7,7 @@ namespace WebAPITVShows.Services
     public interface ITVShowsService
     {
         Task<ActionResult<TVShowDTO>> GetByIdAsync(int id);
+        Task<ActionResult<List<TVShowDTO>>> GetAllAsync();
+
     }
 }
