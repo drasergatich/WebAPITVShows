@@ -44,35 +44,36 @@ namespace WebAPITVShows.Repositories
         /// Agrega una nueva entidad a la base de datos.
         /// </summary>
         /// <param name="entity">La entidad a agregar.</param>
-        /// <returns>Una tarea que representa la operación asincrónica.</returns>
-        public async Task AddAsync(T entity)
+        /// <returns>Un número entero 1 si se guardaron cambios, en caso contrario un 0.</returns>
+        public async Task<int> AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
         /// <summary>
         /// Actualiza una entidad existente en la base de datos.
         /// </summary>
         /// <param name="entity">La entidad con los datos actualizados.</param>
-        /// <returns>Una tarea que representa la operación asincrónica.</returns>
-        public async Task UpdateAsync(T entity)
+        /// <returns>Un número entero 1 si se guardaron cambios, en caso contrario un 0.</returns>
+        public async Task<int> UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
         /// <summary>
         /// Elimina una entidad de la base de datos por su identificador.
         /// </summary>
         /// <param name="id">El identificador de la entidad a eliminar.</param>
-        /// <returns>Una tarea que representa la operación asincrónica.</returns>
-        public async Task DeleteAsync(int id)
+        /// <returns>Un número entero 1 si se guardaron cambios, en caso contrario un 0.</returns>
+        public async Task<int> DeleteAsync(int id)
         {
             var entity = await GetByIdAsync(id);
             if (entity != null)
             {
                 _dbSet.Remove(entity);
-                await _context.SaveChangesAsync();
+                return await _context.SaveChangesAsync();
             }
+            return 0;
         }
     }
 }

@@ -8,6 +8,6 @@ namespace WebAPITVShows.Services
     {
         Task<ActionResult<TVShowDTO>> GetByIdAsync(int id);
         Task<ActionResult<List<TVShowDTO>>> GetAllAsync();
-
+        Task<ActionResult> CreateAsync(CreateTVShowDTO createTVShowDTO);
     }
 }

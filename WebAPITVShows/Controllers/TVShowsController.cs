@@ -44,5 +44,19 @@ namespace WebAPITVShows.Controllers
         {
             return await _tvShowService.GetAllAsync();
         }
+        /// <summary>
+        /// Crea un nuevo TV Show en la base de datos.
+        /// </summary>
+        /// <param name="createTVShowDTO">El objeto que contiene los datos necesarios para crear un nuevo TV Show.</param>
+        /// <returns>Un mensaje que indica si el registro fue añadido exitosamente o si ocurrió algún error durante el proceso.</returns>
+        /// <response code="200">Devuelve un mensaje de resultado.</response>
+        /// <response code="400">Devuelve un mensaje de error.</response>
+        [HttpPost]
+        [Route("insertar")]
+        public async Task<ActionResult<List<TVShowDTO>>> Create(CreateTVShowDTO createTVShowDTO)
+        {
+            return await _tvShowService.CreateAsync(createTVShowDTO);
+        }
+
     }
 }

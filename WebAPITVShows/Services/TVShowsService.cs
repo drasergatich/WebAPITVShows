@@ -91,5 +91,35 @@ namespace WebAPITVShows.Services
                 return new BadRequestObjectResult(ex.Message);
             }
         }
+        /// <summary>
+        /// Crea un nuevo registro de TV Show en la base de datos.
+        /// </summary>
+        /// <param name="createTVShowDTO">Objeto que contiene la información necesaria para crear un nuevo TV Show.</param>
+        /// <response code="200">Devuelve un mensaje indicando que el registro se agregó exitosamente.</response>
+        /// <response code="400">Si ocurrió un error durante el proceso, devuelve un mensaje con el detalle del error.</response>
+
+        public async Task<ActionResult> CreateAsync(CreateTVShowDTO createTVShowDTO)
+        {
+            try
+            {
+                TVShow tVShow = new TVShow()
+                {
+                    Name = createTVShowDTO.Name,
+                    Favorite = createTVShowDTO.Favorite
+                };
+                var resultado = await _genericRepository.AddAsync(tVShow);
+
+                // Si no se agregó el registro, se devuelve un Bad Request con el mensaje correspondiente
+                if (resultado == 0)
+                {
+                    return new BadRequestObjectResult(new { message = "No se pudieron realizar cambios en la base de datos." });
+                }
+                return new OkObjectResult(new { message = "Se agregó el registro exitosamente"});
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
     }
 }
