@@ -10,6 +10,7 @@ namespace WebAPITVShows.Services
         Task<ActionResult<List<TVShowDTO>>> GetAllAsync();
         Task<ActionResult> CreateAsync(CreateTVShowDTO createTVShowDTO);
         Task<ActionResult> UpdateAsync(int id, UpdateTVShowDTO updateTVShowDTO);
+        Task<ActionResult> DeleteAsync(int id);
 
     }
 }

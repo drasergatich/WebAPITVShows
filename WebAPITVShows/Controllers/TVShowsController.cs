@@ -70,6 +70,19 @@ namespace WebAPITVShows.Controllers
         {
             return await _tvShowService.UpdateAsync(id, updateTVShowDTO);
         }
+        /// <summary>
+        /// Elimina un TV Show en la base de datos.
+        /// </summary>
+        /// <param name="id">El ID del TV Show a eliminar.</param>
+        /// <returns>Un mensaje que indica si el registro se eliminó exitosamente o si ocurrió algún error durante el proceso.</returns>
+        /// <response code="200">Devuelve un mensaje de resultado.</response>
+        /// <response code="400">Devuelve un mensaje de error.</response>
+        /// <response code="404">Si no se encuentra ningún registro de TV Show, devuelve un mensaje con el error.</response>
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            return await _tvShowService.DeleteAsync(id);
+        }
 
     }
 }

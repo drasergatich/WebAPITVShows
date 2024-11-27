@@ -152,5 +152,30 @@ namespace WebAPITVShows.Services
                 return new BadRequestObjectResult(ex.Message);
             }
         }
+        /// <summary>
+        /// Elimina un registro de TV Show en la base de datos.
+        /// </summary>
+        /// <param name="id">ID del TV Show a eliminar.</param>
+        /// <response code="200">Devuelve un mensaje indicando que el registro se eliminó exitosamente.</response>
+        /// <response code="400">Si ocurrió un error durante el proceso, devuelve un mensaje con el detalle del error.</response>
+        /// <response code="404">Si no se encuentra ningún registro de TV Show, devuelve un mensaje con el error.</response>
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            try
+            {
+                var resultado = await _genericRepository.DeleteAsync(id);
+
+                // Si no se encontró el registro, se devuelve un Not Found con el mensaje correspondiente
+                if (resultado == 0)
+                {
+                    return new NotFoundObjectResult(new { message = "No se encontró ningún registro con ese ID." });
+                }
+                return new OkObjectResult(new { message = "Se eliminó el registro exitosamente" });
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
     }
 }
